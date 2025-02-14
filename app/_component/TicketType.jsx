@@ -22,12 +22,14 @@ const TicketType = ({setTicketType,ticketType}) => {
             available: '20 left!'
         },
     ] // Track selected ticket (default to the first ticket)
-    const [selectedTicket, setSelectedTicket] = useState(()=> {
-        return localStorage.getItem('ticketType') || data[0].name
-    });
-    useEffect(() => {
-        setTicketType(selectedTicket);
-    }, [selectedTicket, setTicketType]);
+    const [selectedTicket, setSelectedTicket] = useState(ticketType || '');
+    useEffect(()=>{
+        if (typeof window !== "undefined") {
+            const storedTicket = localStorage.getItem("ticketType");
+            if (storedTicket) setSelectedTicket(storedTicket);
+        }
+    },[])
+
     const handleSelect = (ticketName) => {
         setSelectedTicket(ticketName);
         setTicketType(ticketName);

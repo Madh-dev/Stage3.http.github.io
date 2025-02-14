@@ -8,15 +8,27 @@ import React,{useState,useEffect} from 'react'
 
 export default function Home() {
   const [step, setStep] = useState(1);
-  const [ticketCount, setTicketCount] = useState(() => localStorage.getItem("ticketCount") || "");
-  const [ticketType, setTicketType] = useState(() => localStorage.getItem("ticketType") || "");
-  const [name, setName] = useState(() => localStorage.getItem("name") || "");
-  const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
-  const [project, setProject] = useState(() => localStorage.getItem("project") || "");
-  const [profileImage, setProfileImage] = useState(()=>localStorage.getItem('profileImage')|| null);
+  const [ticketCount, setTicketCount] = useState("");
+  const [ticketType, setTicketType] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [project, setProject] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [errors, setErrors] = useState({});
 
+
+   // Load data from localStorage 
+useEffect(() => {
+    if (typeof window !== "undefined") {
+      setTicketCount(localStorage.getItem("ticketCount") || "");
+      setTicketType(localStorage.getItem("ticketType") || "");
+      setName(localStorage.getItem("name") || "");
+      setEmail(localStorage.getItem("email") || "");
+      setProject(localStorage.getItem("project") || "");
+      setProfileImage(localStorage.getItem("profileImage") || null);
+    }
+  }, []);
   const handleNext = () => {
     if (step === 2) {
       let validationErrors = {};
@@ -49,7 +61,7 @@ try {
   const data = await response.json();
       if(data.secure_url){
         setProfileImage(data.secure_url);
-        localStorage.setItem('profileImage',data.secure_url)
+        // localStorage.setItem('profileImage',data.secure_url);
       }
 
 } catch (error) {
@@ -60,18 +72,23 @@ try {
  }
 
   };
-  
+   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem("ticketType", ticketType);
-    localStorage.setItem("ticketCount", ticketCount);
-    localStorage.setItem("name", name);
-    localStorage.setItem("email", email);
-    localStorage.setItem("project", project);
-  }, [ticketType, ticketCount,name,email,project]);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("ticketType", ticketType);
+      localStorage.setItem("ticketCount", ticketCount);
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("project", project);
+      if (profileImage) {
+        localStorage.setItem("profileImage", profileImage);
+      }
+    }
+  }, [ticketType, ticketCount,name,email,project,profileImage]);
 
   return (
     <div className="">    
-   { step === 1 &&
+  { step === 1 &&
     <TicketSelection  ticketCount={ticketCount} setTicketCount={setTicketCount}  handleNext={handleNext} setTicketType={setTicketType} ticketType={ticketType}/>
     }
     {step === 2 && 
@@ -82,7 +99,7 @@ try {
     setEmail={setEmail} setProject={setProject} 
     setName={setName} profileImage={profileImage} 
     handleImageUpload={handleImageUpload} isUploading={isUploading}
-     errors={errors}/> 
+    errors={errors}/> 
     }
     {step === 3 &&
     <LastStep  setStep={setStep} name={name} email={email} profileImage={profileImage} ticketType={ticketType} ticketCount={ticketCount} project={project}/>

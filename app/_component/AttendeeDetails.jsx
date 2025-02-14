@@ -21,7 +21,7 @@ const AttendeeDetails = ({handlePrevious,handleNext,name,email,project,setEmail,
                 <div className=''>
                     <div className='relative w-40 h-40 bg-[#0e464f] m-auto flex flex-col items-center justify-center rounded-2xl'>
                     {profileImage ? (
-                            <Image src={profileImage} height={800} width={900} alt='Profile Photo' className='rounded-3xl w-full h-full' />
+                            <Image src={profileImage} height={800} width={900} alt='Profile Photo' className='rounded-3xl w-full h-full object-cover' />
                             ) : (
                             <>
                                 <Image src={`/icon.png`} height={50} width={50} alt='Img_logo' />
@@ -77,7 +77,7 @@ const AttendeeDetails = ({handlePrevious,handleNext,name,email,project,setEmail,
                 <p className='my-4'>About the project</p>
                 <textarea className='border bg-[#08252B]  border-[#0E464F] rounded-2xl p-4 w-full' 
                 value={project} onChange={(e)=>setProject(e.target.value)}
-                aria-describedby={errors.project ? 'email-error' : undefined }>
+                aria-describedby={errors.project ? 'project-error' : undefined }>
                 </textarea>
                 {errors.project && 
                     <p className='text-red-500 text-sm mt-2'>
@@ -94,12 +94,12 @@ const AttendeeDetails = ({handlePrevious,handleNext,name,email,project,setEmail,
             >
             Get My Free Ticket
             </button>
-            <Link 
-            href='/' 
+            <button 
+            type='button'
             className='mt-4 w-full border text-center  border-[#2ba4b9] rounded-2xl p-4 text-white py-2 px-4'
             onClick={handlePrevious}>
                 Back
-            </Link>
+            </button>
             </div>
         </div>
         
