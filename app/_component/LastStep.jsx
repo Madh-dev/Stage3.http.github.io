@@ -21,7 +21,6 @@ const LastStep = ({ setStep, name, email, ticketType,ticketCount,project,profile
 const anotherTicket = ()=>{
   localStorage.clear(); 
   setStep(1);
-    setStep(1);
 }
   return (
     <div className='bg-[#08252B] w-3/4 rounded-xl m-auto text-white'>
@@ -91,11 +90,12 @@ const anotherTicket = ()=>{
             >
             Download Ticket
             </button>
-            <Link href='/' 
+            <button 
+            type='button'
             onClick={anotherTicket}
             className='mt-4 w-full border text-center  border-[#2ba4b9] rounded-2xl p-4 text-white py-2 px-4 '>
             Book Another Ticket
-            </Link>
+            </button>
         </div>
         
     </div>
